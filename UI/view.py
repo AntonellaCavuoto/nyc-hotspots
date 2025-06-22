@@ -13,29 +13,54 @@ class View(ft.UserControl):
         self._controller = None
         # graphical elements
         self._title = None
-        self.txt_name = None
-        self.btn_hello = None
+        self.txt_distanza = None
+        self.btn_creaGrafo = None
         self.txt_result = None
         self.txt_container = None
 
     def load_interface(self):
         # title
-        self._title = ft.Text("Hello World", color="blue", size=24)
+        self._title = ft.Text("NYC_WIFI_HOTSPOTS", color="blue", size=24)
         self._page.controls.append(self._title)
 
         #ROW with some controls
         # text field for the name
-        self.txt_name = ft.TextField(
-            label="name",
+        self._ddProvider = ft.Dropdown(label="Provider")
+        self._controller.fillDDProvider()
+        self.txt_distanza = ft.TextField(
+            label="Distanza",
             width=200,
-            hint_text="Insert a your name"
+            hint_text="Inserisci una distanza in km"
         )
 
         # button for the "hello" reply
-        self.btn_hello = ft.ElevatedButton(text="Hello", on_click=self._controller.handle_hello)
-        row1 = ft.Row([self.txt_name, self.btn_hello],
+        self.btn_creaGrafo = ft.ElevatedButton(text="Crea grafo", on_click=self._controller.handle_creaGrafo)
+        self.btn_analisiGrafo = ft.ElevatedButton(text="Analisi grafo", on_click=self._controller.handle_analisiGrafo)
+
+        self.txt_stringa = ft.TextField(
+            label="Stringa",
+            width=200,
+            hint_text="Inserisci una stringa"
+        )
+        self.btn_calcolaPercorso = ft.ElevatedButton(text="Calcola percorso", on_click=self._controller.handle_calcolaPercorso)
+
+        self._ddTarget = ft.Dropdown(label="Target")
+
+        row2 = ft.Row([self._ddProvider, self.btn_creaGrafo],
+                      alignment=ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row2)
+
+        row1 = ft.Row([self.txt_distanza, self.btn_analisiGrafo],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
+
+        row3 = ft.Row([self.txt_stringa, self.btn_calcolaPercorso],
+                      alignment=ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row3)
+
+        row4 = ft.Row([self._ddTarget],
+                      alignment=ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row4)
 
         # List View where the reply is printed
         self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
